@@ -39,7 +39,7 @@ def send_filter():
     f_dict = {
         'Eco': 'eco',
         'Eco Plus': 'eco plus',
-        'Buisness': 'buisness',
+        'Buisness': 'business',
         'Personnel': 'personal travel',
         'Travail': 'business travel',
         'plus que': '+',
