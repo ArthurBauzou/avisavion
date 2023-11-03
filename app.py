@@ -6,7 +6,6 @@ from modules.prepdata import prepdata
 from modules.modelmk import train_model
 
 
-
 ### FONCTIONS ###
 def launch():
     df = pd.read_csv('data\clean_aiplane.csv')
