@@ -1,22 +1,27 @@
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split, cross_validate, GridSearchCV
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
+
 import pandas as pd
 
-# import des données
-dfx = pd.read_csv('data/x.csv')
-dfy = pd.read_csv('data/y.csv')
-SEED = 1234
+def train_model(df:pd.DataFrame, seed=64):
 
-print(dfx.columns)
+    # création des jeux de train/test
+    X_train, X_test, y_train, y_test = train_test_split(df.drop('satisfaction', axis=1), df['satisfaction'], test_size=0.1, random_state=seed)
 
-# création des jeux de train/test
-Xr, Xs, yr, ys = train_test_split(dfx, dfy, test_size=0.2, random_state=SEED)
+    # normaliser les données
+    scaler = StandardScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
 
-# normaliser les données
-scaler = MinMaxScaler()
-Xr = scaler.fit_transform(Xr)
-Xs = scaler.transform(Xs)
+    # convertir les données y aussi :
+    y_train = y_train.squeeze().ravel()
+    y_test = y_test.squeeze().ravel()
 
-print(Xr[:10])
-# model = RandomForestClassifier(n_jobs=-1, random_state=SEED)
+    # entrainement du modèle 
+    forest = RandomForestClassifier(n_jobs=-1, random_state=seed)
+    forest.fit(X_train, y_train)
+    score = round(forest.score(X_test, y_test)*100, 2)
+
+
+    return forest, score

@@ -1,27 +1,10 @@
 import pandas as pd
 
-dfx = pd.read_csv('data/clean_aiplane.csv')
-
-print(dfx.columns)
-
-passenger_filter = {
-    'gender': 'female',
-    'age': (35, '+'),
-    # 'type': 'loyal customer'
-}
-
-flight_filter = {
-    # 'flight distance': (1200, '+'),
-    # 'class': ['eco', 'eco plus'],
-    'reason': 'personal travel'
-}
-
 def prepdata(passenger_filter:dict, flight_filter:dict, dataframe:pd.DataFrame, take_delay_in=True):
 
     passengers_criteria = ['female', 'male', 'age', 'loyal customer', 'disloyal customer']
     flight_criteria = ['business', 'eco', 'eco plus', 'business travel', 'personal travel', 'flight distance']
-    
-    df = dataframe.copy()
+    df = dataframe
 
     # PASSENGERS FILTERS
     for k,v in passenger_filter.items():
@@ -42,11 +25,9 @@ def prepdata(passenger_filter:dict, flight_filter:dict, dataframe:pd.DataFrame, 
             df = df.loc[df[v] == 1]
 
     df = df.drop(flight_criteria, axis=1)
+
+    # DELAY FILTER
     if not take_delay_in : df = df.drop('arrival delay in minutes', axis=1)
 
+
     return df
-
-
-testx = prepdata(passenger_filter, flight_filter, dfx)
-
-print(testx)
