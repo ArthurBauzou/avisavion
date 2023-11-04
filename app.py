@@ -44,10 +44,14 @@ def send_filter():
         'plus que': '+',
         'moins que': '-'
     }
+    class_list = ['Eco', 'Eco Plus', 'Buisness']
     f_filter = {}
     if reason != 'Tous': f_filter['reason'] = f_dict[reason]
     if dist_dir != 'Tous': f_filter['flight distance'] = (distance, f_dict[dist_dir])
-    if classes != ['Eco', 'Eco Plus', 'Buisness']: f_filter['class'] = [f_dict[c] for c in classes]
+    if classes != class_list and classes != []:
+        rm_class = class_list
+        for c in classes : rm_class.remove(c)
+        f_filter['rm_class'] = [f_dict[r] for r in rm_class]
         
 
     # DELAY

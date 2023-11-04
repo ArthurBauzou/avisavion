@@ -19,8 +19,8 @@ def prepdata(passenger_filter:dict, flight_filter:dict, dataframe:pd.DataFrame, 
     for k,v in flight_filter.items():
         if k == 'flight distance':
             df = df.loc[df['flight distance'] >= v[0]] if v[1] == '+' else df.loc[df['flight distance'] <= v[0]]
-        elif k == 'class':
-            for clas in v : df = df.loc[df[clas] == 0]
+        elif k == 'rm_class':
+            for rm in v : df = df.loc[df[rm] == 0]
         else:
             df = df.loc[df[v] == 1]
 
